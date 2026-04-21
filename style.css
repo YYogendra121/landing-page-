@@ -1,0 +1,473 @@
+/* --- Variables & Setup --- */
+:root {
+    --bg-color: #030303;
+    --text-main: #f5f5f5;
+    --text-muted: #888888;
+    --accent-gold: #c2a673;
+    
+    --font-serif: 'Playfair Display', serif;
+    --font-sans: 'Montserrat', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    font-family: var(--font-sans);
+    overflow-x: hidden;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* --- Background Image --- */
+.planet-bg {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 75vw;
+    height: 100vh;
+    /* Using a dark moon/planet image from Unsplash */
+    background-image: url('https://images.unsplash.com/photo-1614730321146-b6fa6a46bcb4?q=80&w=2000&auto=format&fit=crop');
+    background-size: cover;
+    background-position: center;
+    /* This creates the fade-to-black effect on the left side and bottom */
+    mask-image: linear-gradient(to right, transparent 0%, black 50%), linear-gradient(to top, transparent 0%, black 20%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 60%), linear-gradient(to top, transparent 0%, black 20%);
+    -webkit-mask-composite: source-in;
+    mask-composite: intersect;
+    opacity: 0.6;
+    z-index: -1;
+}
+
+.page-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 2.5rem 4rem;
+    position: relative;
+    z-index: 1;
+}
+
+/* --- Header & Navigation --- */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding-bottom: 1.5rem;
+}
+
+.logo {
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    color: var(--text-main);
+    text-decoration: none;
+    letter-spacing: 2px;
+}
+
+.nav-links {
+    display: flex;
+    gap: 3rem;
+}
+
+.nav-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: var(--text-main);
+}
+
+.btn-outline {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 0.8rem 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.btn-outline:hover {
+    color: var(--text-main);
+    border-color: var(--text-main);
+}
+
+/* --- Hero Section --- */
+.hero {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-top: 4rem;
+}
+
+.pre-title {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    color: var(--text-muted);
+}
+
+.hero-center h1 {
+    font-family: var(--font-serif);
+    font-size: clamp(4rem, 8vw, 8rem);
+    font-weight: 400;
+    line-height: 1.05;
+    letter-spacing: -2px;
+    margin-top: 2rem;
+}
+
+.accent-italic {
+    color: var(--accent-gold);
+    font-style: italic;
+}
+
+.hero-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding-bottom: 2rem;
+    margin-top: auto;
+}
+
+.hero-desc {
+    color: #a0a0a0;
+    font-size: 0.95rem;
+    line-height: 1.8;
+    max-width: 500px;
+}
+
+.btn-box {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 1.2rem 2rem;
+    transition: all 0.3s ease;
+}
+
+.btn-box:hover {
+    color: var(--text-main);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.arrow {
+    font-size: 1rem;
+}
+
+/* --- Bottom Ticker --- */
+.ticker-wrap {
+    width: 100%;
+    background-color: #000;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 1.5rem 0;
+    overflow: hidden;
+}
+
+.ticker {
+    display: flex;
+    white-space: nowrap;
+    animation: ticker 40s linear infinite;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    color: var(--text-muted);
+}
+
+.diamond {
+    color: var(--accent-gold);
+    margin: 0 3rem;
+    font-size: 0.5rem;
+}
+
+@keyframes ticker {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+/* --- Mobile Responsiveness --- */
+@media (max-width: 1024px) {
+    .nav-links { display: none; }
+    .hero-bottom { flex-direction: column; align-items: flex-start; gap: 2rem; }
+    .page-wrapper { padding: 1.5rem 2rem; }
+}
+/* --- Suites Showcase Section --- */
+.suite-showcase {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+    margin-top: 2rem;
+}
+
+.suite-image img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+}
+
+.suite-details {
+    padding-right: 2rem;
+}
+
+.suite-details h3 {
+    font-family: var(--font-serif);
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 400;
+    margin: 1.5rem 0;
+    line-height: 1.1;
+}
+
+.suite-desc {
+    color: var(--text-muted);
+    font-size: 1rem;
+    line-height: 1.8;
+    margin-bottom: 3.5rem;
+    max-width: 450px;
+}
+
+.suite-specs {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    padding-top: 2rem;
+}
+
+.spec span {
+    font-size: 0.6rem;
+    letter-spacing: 3px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 0.8rem;
+}
+
+.spec p {
+    font-family: monospace;
+    font-size: 0.95rem;
+    color: var(--text-main);
+    margin: 0;
+}
+
+/* --- Suite Section Mobile Responsiveness --- */
+@media (max-width: 1024px) {
+    .suite-showcase {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+    }
+    
+    .suite-details {
+        padding-right: 0;
+    }
+    
+    .suite-image img {
+        aspect-ratio: 16 / 9; /* Makes the image wider and shorter on mobile */
+    }
+}
+/* --- Pixel-Perfect Destinations Section --- */
+.destinations-header {
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    align-items: start;
+    margin-bottom: 5rem;
+}
+
+.destinations-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr; /* Makes the left card slightly wider */
+    gap: 2rem;
+}
+
+/* Card Foundations */
+.dest-card {
+    background-color: #060606; /* Slightly lighter than background to stand out */
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Large Left Card */
+.large-card {
+    min-height: 750px;
+    background-size: cover;
+    background-position: center;
+    justify-content: flex-end;
+    padding: 3rem;
+}
+
+.card-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60%;
+    background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0) 100%);
+    z-index: 1;
+}
+
+.card-content-bottom {
+    position: relative;
+    z-index: 2;
+}
+
+.card-content-bottom h3 {
+    font-family: var(--font-serif);
+    font-size: 2.8rem;
+    font-weight: 400;
+    margin-top: 0.8rem;
+    margin-bottom: 0;
+}
+
+/* Right Side Cards */
+.right-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.small-card {
+    flex: 1;
+    justify-content: space-between;
+    padding: 3rem;
+}
+
+.planet-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    padding-bottom: 2rem;
+}
+
+.planet-img-float {
+    width: 240px;
+    height: 240px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: -30px 20px 60px rgba(0,0,0,0.9); /* Deep shadow on the left side of the planet */
+}
+
+.italic-desc {
+    color: var(--text-muted);
+    font-style: italic;
+    font-family: var(--font-serif);
+    margin-top: 0.5rem;
+    font-size: 0.95rem;
+}
+
+/* Meta Data Grid (Distance, Duration, Price) */
+.meta-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-top: 1px solid rgba(255,255,255,0.08);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    padding: 1.5rem 0;
+}
+
+.meta-item {
+    border-right: 1px solid rgba(255,255,255,0.08);
+    padding: 0 1.5rem;
+}
+
+.meta-item:first-child {
+    padding-left: 0;
+}
+
+.meta-item:last-child {
+    border-right: none;
+}
+
+.meta-item span {
+    font-size: 0.6rem;
+    letter-spacing: 3px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 0.8rem;
+}
+
+.meta-item p {
+    font-family: monospace;
+    font-size: 0.85rem;
+    color: var(--text-main);
+}
+
+/* --- Mobile Responsiveness for Destinations --- */
+@media (max-width: 1024px) {
+    .destinations-header {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .destinations-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .large-card {
+        min-height: 500px;
+    }
+}
+/* --- Premium Custom Cursor --- */
+/* Hide the default cursor everywhere */
+body, a, button, input {
+    cursor: none !important;
+}
+
+.cursor-dot,
+.cursor-outline {
+    position: fixed;
+    top: 0;
+    left: 0;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    z-index: 9999;
+    pointer-events: none; /* Ensures the cursor doesn't block clicks */
+}
+
+.cursor-dot {
+    width: 6px;
+    height: 6px;
+    background-color: var(--accent-gold);
+}
+
+.cursor-outline {
+    width: 40px;
+    height: 40px;
+    border: 1px solid rgba(194, 166, 115, 0.5); /* Faded gold */
+    transition: width 0.3s ease, height 0.3s ease, background-color 0.3s ease;
+}
+
+/* Hide custom cursor on smaller screens (tablets/phones) since they use touch */
+@media (max-width: 1024px) {
+    body, a, button, input {
+        cursor: auto !important;
+    }
+    .cursor-dot, .cursor-outline {
+        display: none;
+    }
+}
+
